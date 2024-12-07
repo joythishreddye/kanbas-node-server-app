@@ -21,6 +21,8 @@ app.use(
   cors({
     credentials: true,
     origin: process.env.NETLIFY_URL || "http://localhost:3000",
+         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD", "CONNECT", "TRACE"],
+         allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 const sessionOptions = {
