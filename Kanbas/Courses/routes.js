@@ -9,10 +9,8 @@ export default function CourseRoutes(app) {
     res.json(modules);
   });
   app.get("/api/courses/:courseId/assignments", async (req, res) => {
-    console.log("GETTING ASSIGNMENTS");
     const { courseId } = req.params;
     const assignments = await assignmentsDao.findAssignmentsForCourse(courseId);
-    console.log(assignments);
     res.json(assignments);
   });
   app.get("/api/courses", async(req, res) => {
