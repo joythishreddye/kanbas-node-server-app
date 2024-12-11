@@ -11,41 +11,47 @@ import AssignmentRoutes from "./Kanbas/Assignments/routes.js";
 import EnrollmentRoutes from "./Kanbas/Enrollments/routes.js";
 import mongoose from "mongoose";
 import "dotenv/config";
+import QuizRoutes from "./Kanbas/Quizzes/routes.js";
+import QuestionsRoute from "./Kanbas/Questions/routes.js";
+import AnswersRoutes from "./Kanbas/Answers/routes.js";
 
-
-const CONNECTION_STRING =  process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"
+const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"
 mongoose.connect(CONNECTION_STRING);
 const app = express();
 
 app.use(
-  cors({
-    credentials: true,
-    origin: process.env.NETLIFY_URL || "http://localhost:3000",
-         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD", "CONNECT", "TRACE"],
-         allowedHeaders: ["Content-Type", "Authorization"],
-  })
+    cors({
+             credentials: true,
+             origin: process.env.NETLIFY_URL || "http://localhost:3000",
+             methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD", "CONNECT",
+                       "TRACE"],
+             allowedHeaders: ["Content-Type", "Authorization"],
+         })
 );
 const sessionOptions = {
-  secret: process.env.SESSION_SECRET || "kanbas",
-  resave: false,
-  saveUninitialized: false,
+    secret: process.env.SESSION_SECRET || "kanbas",
+    resave: false,
+    saveUninitialized: false,
 };
 if (process.env.NODE_ENV !== "development") {
-  sessionOptions.proxy = true;
-  sessionOptions.cookie = {
-    sameSite: "none",
-    secure: true,
-    domain: process.env.NODE_SERVER_DOMAIN,
-  };
+    sessionOptions.proxy = true;
+    sessionOptions.cookie = {
+        sameSite: "none",
+        secure: true,
+        domain: process.env.NODE_SERVER_DOMAIN,
+    };
 }
 app.use(session(sessionOptions));
 
 app.use(express.json());
 UserRoutes(app);
+AnswersRoutes(app);
 CourseRoutes(app);
-ModuleRoutes(app);
 AssignmentRoutes(app);
 EnrollmentRoutes(app);
+ModuleRoutes(app);
+QuizRoutes(app);
+QuestionsRoute(app);
 Lab5(app);
 Hello(app);
 

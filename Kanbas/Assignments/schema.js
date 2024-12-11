@@ -7,7 +7,7 @@ const schema = new mongoose.Schema(
     points: Number,
     dueDate: Date,
     availableFrom: Date,
-    availableUntil: Date
+    availableUntil: Date,
   },
   { collection: "assignments" }
 );
